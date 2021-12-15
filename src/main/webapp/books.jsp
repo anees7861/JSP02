@@ -32,18 +32,19 @@
 		
 			<j:forEach items="${rs.rows }" var = "row">
 			
-				<div class = "col-lg-3 col-md-4 col-sm-12 col-xs-12" style="border: 1px sold black" >
+				<div class = "col-lg-4 col-md-4 col-sm-12 col-xs-12" style="border: 1px sold black" >
 					<a href="book.jsp?bookid=${row.bookid }">
-						<img src = "ImageServlet?id=${row.bookid }" height="500" class="col-lg-12"/>
+						<img src = "ImageServlet?id=${row.bookid }" height="400" class="col-lg-12"/>
 					</a>
 					
 					<h3 class="col-lg-12">${row.bookname }</h3>
 					<h3 class="col-lg-12">${row.price }</h3><br>
 					
-					<div class="row d-grip gap-3" align="center">
-						<a href="" class="btn btn-primary col-lg-10">Add to cart</a>
-						<a href="" class="btn btn-danger col-lg-10">Buy Now</a>
+					<div class="text-center">
+						<a href="" class="btn btn-primary col-lg-5">Add to cart</a>
+						<a href="" class="btn btn-danger col-lg-5">Buy Now</a>
 					</div>
+					<br>
 					
 				</div>
 			</j:forEach>	
