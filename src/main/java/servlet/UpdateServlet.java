@@ -45,9 +45,13 @@ public class UpdateServlet extends HttpServlet{
 					ps.setInt(5, bookid);
 						
 					ps.executeUpdate();
-					resp.sendRedirect("books.jsp"); // use this to redirect the site to the requried web page 
 					
 					
+					PrintWriter pw = resp.getWriter();
+					pw.println("<script>"
+							+ "alert('Updated Book Details');"
+							+ "window.location='books.jsp';"
+							+ "</script>");
 					
 					
 					
