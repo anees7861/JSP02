@@ -1,0 +1,89 @@
+JSTL( JSP Standard Tag library)
+
+1. Core - core java concepts if..else, loops etc
+2. SQL - JDBC in jsp page along with html can be written
+3. Function - Strict functions like UPPERCASE,LOWERCASE etc
+4. Format - to change text, language (WONT BE USING IT)
+5. XML - Extensible Markup Language
+
+
+JSP tags
+
+1. Scriplet tag <% %> to write pure java code
+2. Directive <%@ %> import anything to jsp file
+3. Expression tag <%= %> to print any variable
+4. Declaration tag <%! %> declaring a varible
+5. Comments <%-- --%> comment jsp code
+
+JSTL code is used to prevent java code in jsp, 
+it provides similar functionality by the use of tags
+so the code looks uniform
+
+Steps to add images to page
+
+1. GOTo databaase and add new image column using 
+	alter database MyDB add FILEGROUP FILESTREAM_grp contains FILESTREAM
+
+	alter database MyDB add file(Name='Pictures', filename = 'C:\data\Pictures')
+	to FILEGROUP FILESTREAM_grp
+
+	alter table books add FSunique uniqueidentifier not null ROWGUIDCOL 
+	unique default newid()
+
+	alter table books add Images varbinary(max) FILESTREAM NULL
+
+2. Goto books.jsp and add image with url of image servlet
+
+	<td><img src="ImageServlet?id=${row.bookid }" width="200" height="200"/></td>
+
+3. add following line to register book jsp, to allow multipart data in form
+
+	enctype="multipart/form-data"
+
+
+5.To BookData servlet add the following code
+	a. Add@MultipartConfig Annotation @MultipartConfig(maxFileSize = 999999999L)
+	b. Get part data using req.getPart() method
+		Part part = req.getPart("image");
+		InputStream is = part.getInputStream();
+	c. setBlob() in existing query
+		PreparedStatement ps = con.prepareStatement("insert into books (bookname,author,price,link,Images) values(?,?,?,?,?)");
+			
+			ps.setString(1, name);
+			ps.setString(2, author);
+			ps.setFloat(3, price);
+			ps.setString(4, link);
+			ps.setBlob(5, is);
+
+
+5. Create Image Servelet and add the following code
+
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		int bookid = Integer.parseInt(req.getParameter("id")); // gets the id of the books
+		
+		try {
+			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+			Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:64101;databaseName=MyDB","sa","123");
+			PreparedStatement ps = con.prepareStatement("select Images from books where bookid = ?");
+			ps.setInt(1, bookid);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			
+			if(rs.next()) {
+				Blob blob = rs.getBlob("Images"); //image is BLOB format and will not be supported by the browser and JSP file
+				byte arr[]=blob.getBytes(1, (int)blob.length()); //convert BLOB data into byte array so browser can understand
+				
+				resp.getOutputStream().write(arr); //send bytes to the browser
+			}
+		}catch (Exception e) {
+			// TODO: handle exception
+			PrintWriter pe = resp.getWriter();
+			pe.println(e);
+		}
+	}
+
+
+end here
