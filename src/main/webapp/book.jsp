@@ -44,14 +44,16 @@
 					
 					 <div class="row d-grip gap-3" align="center"> 
 						<a href="" class="btn btn-success col-lg-10 ">Add to cart</a>
+						<!-- display buy button only if price > 0  -->
 						<j:if test="${row.price>0 }">
 							<a href="" class="btn btn-primary col-lg-10 ">Buy</a>
 						</j:if>
+						<!-- show read when person has bought the book or the book is free to read  -->
 						<j:if test="${row.price<=0 }">
 							<a href="${row.link }" target = "_blank" class="btn btn-secondary col-lg-10 ">Read</a>
 						</j:if>
-						<a href="" class="btn btn-danger col-lg-10 ">Delete</a>
-						<a href="" class="btn btn-warning col-lg-10 ">Update</a>
+						<a href="DeleteServlet?bookid=${row.bookid }" class="btn btn-danger col-lg-10 ">Delete</a>
+						<a href="update.jsp?bookid=${row.bookid}" class="btn btn-warning col-lg-10 ">Update</a>
 					</div>
 					
 					

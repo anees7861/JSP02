@@ -1,0 +1,64 @@
+To delete a book from the table can cause issues while we need to ref it later.So we add a col to our books table 
+signifying the status, this status meed to be changed when we dont want to display the book on out books page.
+
+1. we need to add status col to our table and set all books to active
+	alter table add status varchar(5)
+
+2. Create a servlet that allows you to change the status of the book to inactive and show a popup then redirect to the
+desired page
+	int bookid = Integer.parseInt(req.getParameter("bookid"));
+		
+		
+		try {
+			
+			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+			Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:64101;databaseName=MyDB","sa","123");
+			PreparedStatement ps = con.prepareStatement("update books set status = 'D' where bookid=?");
+			/*
+			 * To delete a book from the table can cause issues while we need to ref it later.So we add a col to our books table 
+				signifying the status, this status meed to be changed when we dont want to display the book on out books page.*/
+			ps.setInt(1, bookid);
+			ps.executeUpdate();
+			PrintWriter p = resp.getWriter();
+			p.println("<script>"
+					+ "alert('Deleted');"
+					+ "window.location='books.jsp'"
+					+ "</script>");
+
+		}catch (Exception e) {
+			// TODO: handle exception
+			PrintWriter p = resp.getWriter();
+			p.println(e);
+		}
+
+3. change you books.jsp file query and set a condition to display books that are active
+	select * from books where status = 'A'
+
+
+4. to add a new book with active status use the following code
+		String name = req.getParameter("bookname");
+		String author = req.getParameter("author");
+		float price = Float.parseFloat(req.getParameter("price"));
+		String link = req.getParameter("link");
+		Part part = req.getPart("image"); //get parts of image from the submission
+		InputStream is = part.getInputStream(); //put it in an input stream to send data to serve
+		try{
+			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+			Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:64101;database=MyDB",
+					"sa","123");
+			PreparedStatement ps = con.prepareStatement("insert into books (bookname,author,price,link,Images,status) "
+					+ "values(?,?,?,?,?,?)");
+			
+			ps.setString(1, name);
+			ps.setString(2, author);
+			ps.setFloat(3, price);
+			ps.setString(4, link);
+			ps.setBlob(5, is); // set the part to the query
+			ps.setString(6, "A");
+			ps.executeUpdate();
+			resp.sendRedirect("books.jsp"); // use this to redirect the site to the requried web page 
+			
+		}catch (Exception e) {
+			// TODO: handle exception
+			System.out.println(e);
+		}

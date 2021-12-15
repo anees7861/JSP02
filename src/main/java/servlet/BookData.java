@@ -32,13 +32,15 @@ public class BookData extends HttpServlet {
 			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 			Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:64101;database=MyDB",
 					"sa","123");
-			PreparedStatement ps = con.prepareStatement("insert into books (bookname,author,price,link,Images) values(?,?,?,?,?)");
+			PreparedStatement ps = con.prepareStatement("insert into books (bookname,author,price,link,Images,status) "
+					+ "values(?,?,?,?,?,?)");
 			
 			ps.setString(1, name);
 			ps.setString(2, author);
 			ps.setFloat(3, price);
 			ps.setString(4, link);
 			ps.setBlob(5, is); // set the part to the query
+			ps.setString(6, "A");
 			ps.executeUpdate();
 			resp.sendRedirect("books.jsp"); // use this to redirect the site to the requried web page 
 			
