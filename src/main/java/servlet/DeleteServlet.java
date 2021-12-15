@@ -15,8 +15,14 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/DeleteServlet")
 public class DeleteServlet extends HttpServlet {
 	
+	
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doPost(req, resp);
+	}
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		int bookid = Integer.parseInt(req.getParameter("bookid"));
 		

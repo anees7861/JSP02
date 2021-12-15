@@ -28,9 +28,9 @@ crossorigin="anonymous"></script>
 
 
 </head>
-<body>
+<body >
 	
-		<h1>Welcome to MyApp</h1>
+		<h1 style="text-align: center;">Welcome to MyApp</h1>
 		<nav class="navbar navbar-expand-lg navbar-light bg-light">
   			<div class="container-fluid">
     			<a class="navbar-brand" href="#">Navbar</a>
@@ -57,7 +57,7 @@ crossorigin="anonymous"></script>
 			        
 			        
 			        
-			        <c:if test="${un==null}"> <!-- Given by JSTL if login is not done then only these links are visible -->
+			        <c:if test="${u.user==null}"> <!-- Given by JSTL if login is not done then only these links are visible -->
 				        <li class="nav-item">
 				          <a class="nav-link" href="login.jsp">Login</a>
 				        </li>
@@ -65,17 +65,24 @@ crossorigin="anonymous"></script>
 				        <li class="nav-item">
 			         		<a class="nav-link" href="register.jsp">Register</a>
 			        	</li>
-				    </c:if>   
-				    
-			       <c:if test="${un!=null}"> <!-- The following liink will be displayed when loggin is successfull
-			       $ signifies Expression Language, helps writing variable -->
-			       		 <li class="nav-item">
-			          		<a class="nav-link" href="registerbook.jsp">Register Books</a>
-			        	</li>
 			        	
 			        	<li class="nav-item">
 			          		<a class="nav-link" href="books.jsp">Display Books</a>
 			        	</li>
+				    </c:if>   
+				    
+			       <c:if test="${u.user!=null}"> <!-- The following liink will be displayed when loggin is successfull
+			       $ signifies Expression Language, helps writing variable -->
+			       		<c:if test="${u.role=='admin'}">
+				       		 <li class="nav-item">
+				          		<a class="nav-link" href="registerbook.jsp">Register Books</a>
+				        	</li>
+				        </c:if>
+			        	
+			        	<li class="nav-item">
+			          		<a class="nav-link" href="books.jsp">Display Books</a>
+			        	</li>
+			        	
 			        	
 			        	<li class="nav-item">
 			          		<a class="nav-link" href="usersinfo.jsp">Display Users</a>

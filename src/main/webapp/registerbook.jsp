@@ -22,6 +22,8 @@
 
 <body style="text-align: center;">
 
+	
+
 	<jsp:include page="header.jsp"></jsp:include>
 	<h1>Register your books here</h1>
 	<div class="container">

@@ -8,7 +8,7 @@
 <meta charset="ISO-8859-1">
 <title>Insert title here</title>
 </head>
-<body>
+<body >
 	<jsp:include page="header.jsp"></jsp:include>
 	
 	<sql:setDataSource
@@ -52,8 +52,11 @@
 						<j:if test="${row.price<=0 }">
 							<a href="${row.link }" target = "_blank" class="btn btn-secondary col-lg-10 ">Read</a>
 						</j:if>
-						<a href="DeleteServlet?bookid=${row.bookid }" class="btn btn-danger col-lg-10 ">Delete</a>
-						<a href="update.jsp?bookid=${row.bookid}" class="btn btn-warning col-lg-10 ">Update</a>
+						
+						<j:if test="${u.role=='admin' }"> <!-- use this to hide admin control buttons -->
+							<a href="DeleteServlet?bookid=${row.bookid }" class="btn btn-danger col-lg-10 ">Delete</a>
+							<a href="update.jsp?bookid=${row.bookid}" class="btn btn-warning col-lg-10 ">Update</a>
+						</j:if>
 					</div>
 					
 					

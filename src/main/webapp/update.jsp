@@ -24,6 +24,8 @@
 
 <body style="text-align: center;">
 
+
+
 	<jsp:include page="header.jsp"></jsp:include>
 	
 		
