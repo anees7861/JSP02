@@ -63,6 +63,11 @@
 					placeholder="Enter Password" class="form-control"/>				
 				</div>
 				<br>
+				<div class = "form-group" style="text-align: left;">
+					<a href = "collectmail.jsp">Forgot Password</a>
+					
+				</div>
+				<br>
 				<div class="form-group">
 					<input type="submit" value="Login" class = "btn btn-primary w-100"/>
 				</div>
