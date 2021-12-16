@@ -29,7 +29,7 @@ public class UpdateServlet extends HttpServlet{
 				String author = req.getParameter("author");
 				float price = Float.parseFloat(req.getParameter("price"));
 				String link = req.getParameter("link");
-
+				
 				try{
 					Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
 					Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:64101;database=MyDB",

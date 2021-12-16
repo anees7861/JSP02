@@ -1,0 +1,128 @@
+1. Create a table cart in database, this will have mant-many reln with users
+	create table cartitems
+	(
+	cartid int primary key identity,
+	bookid int,
+	userid int
+
+	)
+
+2. Add the item to cart after the user has added book from book.jsp page, direct page to AddCartServlet
+
+	<a href="AddCartServlet?bookid=${row.bookid }" class="btn btn-success col-lg-10 ">Add to cart</a>
+
+3. Create AddCartServlet
+
+	@WebServlet("/AddCartServlet")
+	public class AddCartServlet extends HttpServlet {
+	
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		
+		HttpSession hs = req.getSession();
+		//String mail = ((User)hs.getAttribute("u")).getMail();
+		int bookid = Integer.parseInt(req.getParameter("bookid"));
+		String user = ((User)hs.getAttribute("u")).getUser();
+		
+		try {
+
+			PrintWriter pw = resp.getWriter();
+			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+			Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:64101;database=MyDB",
+					"sa","123");
+			
+//			PreparedStatement ps = con.prepareStatement("select * from users where email = ?");
+//			ps.setString(1, mail);
+//			
+//			ResultSet rs = ps.executeQuery();
+//			int userid = (Integer)rs.getObject("userid");
+			
+			PreparedStatement ps1 = con.prepareStatement("insert into cartitems values (?,?)");
+			ps1.setInt(1, bookid);
+			ps1.setString(2, user);
+			ps1.executeUpdate();
+			
+			
+		
+			pw.println("<script>"
+					+ "alert('Book added!');"
+					+ "window.location='cart.jsp';"
+					+ "</script>");
+			
+			
+		}catch (Exception e) {
+			// TODO: handle exception
+		}
+		
+	}
+}
+
+4. The create cart.jsp
+
+	<body >
+	<jsp:include page="header.jsp"></jsp:include>
+	
+	<sql:setDataSource
+		driver="com.microsoft.sqlserver.jdbc.SQLServerDriver"
+		url="jdbc:sqlserver://localhost:64101;databaseName=MyDB"
+		user="sa"
+		password="123"
+		var="con"
+	/>
+		
+		
+	<sql:query var="rs1" dataSource="${con }">
+		
+		select * from cartitems where userid = ?
+		<sql:param>${u.user }</sql:param>	
+	</sql:query>
+	
+	<j:forEach items="${rs1.rows }" var = "cart">
+		<sql:query var="rs" dataSource="${con }">
+			
+			select * from books where bookid = ?
+			<sql:param>${cart.bookid }</sql:param>	
+		</sql:query>
+		
+		<div class="container">
+			<div class="row">
+			
+				<j:forEach items="${rs.rows }" var = "row">
+				
+					<div class = "col-lg-4 col-md-4 col-sm-12 col-xs-12">
+						<a href="book.jsp?bookid=${row.bookid }">
+							<img src = "ImageServlet?id=${row.bookid }" height="500" class="col-lg-12"/>
+						</a>
+					</div>
+					
+					<div class= "col-lg-8 col-md-8 col-sm-12 col-xs-12" style="text-align: left">
+						<h3 class="col-lg-12">${row.bookname }</h3>
+						<h3 class="col-lg-12">${row.author }</h3>
+						<h3 class="col-lg-12">Rs. ${row.price }</h3><br>
+						
+						 <div class="row d-grip gap-3" align="center"> 
+						 	<!-- add item to cart when add to cart is clicked -->
+							<a href="" class="btn btn-success col-lg-10 ">Checkout</a>
+							<a href="" class="btn btn-danger col-lg-10 ">Delete from cart</a>
+							
+						</div>
+						
+						
+					</div>
+					
+					
+				</j:forEach>	
+			
+			</div>
+			<!-- comment -->
+		</div>
+		<br>
+		
+	</j:forEach>
+	
+	<jsp:include page="footer.jsp"></jsp:include>
+</body>
+
+
+5. add the above files to the filter

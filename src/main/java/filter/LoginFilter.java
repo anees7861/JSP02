@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import model.User;
 
-@WebFilter(urlPatterns =  {"/registerbook.jsp","/update.jsp","/DeleteServlet"})
+@WebFilter(urlPatterns =  {"/DeleteServlet","/registerbook.jsp","/update.jsp"})
 public class LoginFilter implements Filter {
 	
 	// this will prevent users from accessing secured web pages, a login is required to access them
@@ -25,6 +25,9 @@ public class LoginFilter implements Filter {
 		
 		HttpServletRequest req =(HttpServletRequest) request;
 		HttpServletResponse resp = (HttpServletResponse) response;
+		
+		resp.setHeader("Cache-Control", "no-cache,no-store,must-revalidate"); // http 1.1
+		resp.setHeader("Pragma", "no-cache");// http 1.0
 		
 		if(req.getSession().getAttribute("u")==null)
 			resp.sendRedirect("login.jsp");

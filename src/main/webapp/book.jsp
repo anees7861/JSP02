@@ -43,9 +43,11 @@
 					<h3 class="col-lg-12">Rs. ${row.price }</h3><br>
 					
 					 <div class="row d-grip gap-3" align="center"> 
-						<a href="" class="btn btn-success col-lg-10 ">Add to cart</a>
-						<!-- display buy button only if price > 0  -->
+					 	<!-- add item to cart when add to cart is clicked -->
+						<a href="AddCartServlet?bookid=${row.bookid }" class="btn btn-success col-lg-10 ">Add to cart</a>
+						
 						<j:if test="${row.price>0 }">
+							<!-- display buy button only if price > 0  -->
 							<a href="" class="btn btn-primary col-lg-10 ">Buy</a>
 						</j:if>
 						<!-- show read when person has bought the book or the book is free to read  -->

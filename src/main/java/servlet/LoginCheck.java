@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -49,9 +50,22 @@ public class LoginCheck extends HttpServlet {
 				u.setRole(rs.getString("role"));
 				
 				HttpSession hs = req.getSession();
-				hs.setMaxInactiveInterval(120); // Specifies the session timeout duration in seconds
+				//hs.setMaxInactiveInterval(120); // Specifies the session timeout duration in seconds
 				hs.setAttribute("u", u); // stores all of the users data in one attributer, instead of creating 4 separate
 										 // ones.
+				
+				
+				// use this to create a cookie object and set names for uname and pass
+				Cookie ck1 = new Cookie("un", u.getUser()); 
+				Cookie ck2 = new Cookie("pass", u.getPass());
+				
+				// set cookie expiration timer
+				ck1.setMaxAge(30);
+				ck2.setMaxAge(30);
+				
+				// add the cookies to the browser
+				resp.addCookie(ck1); 
+				resp.addCookie(ck2);
 				
 				out.println("<script>" // throw a pop up to show user has logged in
 							+ "alert('Welcome User "+u.getUser()+"');" 

@@ -1,0 +1,40 @@
+When user logs in it saves the info using cookies in the browser. 
+Difference between session and cookies is that session ends after a browser but cookies can persist
+even if the machine is restarted. Cookies that are deleted after browser is closed is called non-persistent cookie
+otherwise they are called are persistent cookie
+
+1. create a cookie in LoginCheck servlet
+	// use this to create a cookie object and set names for uname and pass
+				Cookie ck1 = new Cookie("un", u.getUser()); 
+				Cookie ck2 = new Cookie("pass", u.getPass());
+				
+				// set cookie expiration timer
+				ck1.setMaxAge(30);
+				ck2.setMaxAge(30);
+				
+				// add the cookies to the browser
+				resp.addCookie(ck1); 
+				resp.addCookie(ck2);
+
+2. store the cookies in the login.jsp
+	<% 
+			// fecthing the cookies
+			String user="",pass="";
+		
+		try{
+			Cookie ck[] = request.getCookies(); // adds all the cookies in the browser to the array
+			for(Cookie c : ck){
+				if(c.getName().equals("un")){ // use this to find your cookie
+					user = c.getValue(); // store the cookies for the req user
+					// cookie will be deleted after the browser is 
+					// closed these cookie are non-persistent cookie
+					// since cookie timer is not mentioned 
+				}
+				else if(c.getName().equals("pass")){
+					pass=c.getValue();
+				}
+				}
+			}catch(Exception e){
+				
+			}
+	%>

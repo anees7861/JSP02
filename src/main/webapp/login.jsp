@@ -22,15 +22,34 @@
 
 
 <body>
-
-		<!-- this is scriplet tag, which is built in jsp; used to write java code in html -->
-			<%
-			
-				session.removeAttribute("un"); // removes the current user from the session
-				session.invalidate(); //invalidates the entire session after logout
 		
+		<% 
+			// fecthing the cookies
+			String user="",pass="";
 		
-			%>
+		try{
+			Cookie ck[] = request.getCookies(); // adds all the cookies in the browser to the array
+			for(Cookie c : ck){
+				if(c.getName().equals("un")){ // use this to find your cookie
+					user = c.getValue(); // store the cookies for the req user
+					// cookie will be deleted after the browser is closed these cookie are non-persistent cookie
+					// since cookie timer is not mentioned 
+				}
+				else if(c.getName().equals("pass")){
+					pass=c.getValue();
+				}
+				}
+			}catch(Exception e){
+				
+			}
+		%>
+		<!-- this is scriplet tag, which is built in jsp; used to write java code in html 
+		this can be difficult hence we use JSTL tags-->
+		
+		<%
+			session.removeAttribute("u"); // removes the current user from the session
+			session.invalidate(); //invalidates the entire session after logout
+		%>
 		
 
 		<jsp:include page="header.jsp"></jsp:include>
@@ -53,14 +72,15 @@
 			 
 				<div class="form-group">
 					<label>Enter username</label>
-					<input type = "text" name="user" 
+					<input type = "text" name="user" value = "<%out.println(user); // one way to show the 
+					// credential %>"
 					placeholder="Enter Username" class="form-control"/>				
 				</div>
 				<br>
 				<div class="form-group">
 					<label>Enter password</label>
-					<input type = "password" name="pass" 
-					placeholder="Enter Password" class="form-control"/>				
+					<input type = "password" name="pass" value="<%=pass %>" 
+					placeholder="Enter Password" class="form-control"/>	<!--  // another way to show the credential %= % -->	
 				</div>
 				<br>
 				<div class = "form-group" style="text-align: left;">
