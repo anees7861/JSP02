@@ -1,0 +1,8 @@
+
+
+Setsps to send email
+
+1. Write Email code
+2. Update registation servlet to send an email
+3. add jar files mail and activation
+4. allow less secure app access in google
