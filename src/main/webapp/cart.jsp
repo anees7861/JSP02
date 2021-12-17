@@ -48,13 +48,22 @@
 					<div class= "col-lg-8 col-md-8 col-sm-12 col-xs-12" style="text-align: left">
 						<h3 class="col-lg-12 col-md-6 col-sm-12 col-xs-12">${row.bookname }</h3>
 						<h3 class="col-lg-12">${row.author }</h3>
-						<h3 class="col-lg-12">Rs. ${row.price }</h3><br>
+						<h3 class="col-lg-12">Rs. ${row.price }</h3>
+						<form action="UpdateCart?cartid=${cart.cartid}" method="post">
+							<h3>Total Price: ${row.price * cart.quantity }</h3>
+							<input type = "text" name = "bookid" value="${row.bookid }" hidden/>
+							Quantity: <input type = "number" name = "qty" value="${cart.quantity }"/>
+							<br>
+							<br>
+							<input type = "submit" class="btn btn-success col-lg-10" value = "Update Cart"/> 
+						</form>
+						<br>
 						
 						 <div class="row d-grip gap-3" align="center"> 
 						 	<!-- add item to cart when add to cart is clicked -->
-							<a href="" class="btn btn-success col-lg-10 ">Checkout</a>
-							<a href="" class="btn btn-danger col-lg-10 ">Delete from cart</a>
-							
+							<a href="PaymentServlet" class="btn btn-success col-lg-10 ">Checkout</a>
+							<a href="DeleteFromCartServlet?cartid=${cart.cartid }" class="btn btn-danger col-lg-10 ">Delete from cart</a>
+							<!-- use deletefromcartservlet to delete items from cart -->
 						</div>
 						
 						

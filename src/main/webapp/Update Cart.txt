@@ -1,0 +1,50 @@
+Updating from cart
+
+1. add following line cart page
+
+	<form action="UpdateCart?cartid=${cart.cartid}" method="post">
+		<h3>Total Price: ${row.price * cart.quantity }</h3>
+		<input type = "text" name = "bookid" value="${row.bookid }" hidden/>
+		Quantity: <input type = "number" name = "qty" value="${cart.quantity }"/>
+		<br>
+		<br>
+		<input type = "submit" class="btn btn-success col-lg-10" value = "Update Cart"/> 
+	</form>
+
+2. Create Update Cart Servlet
+	@WebServlet("/UpdateCart")
+public class UpdateCart extends HttpServlet{
+	
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+
+		int cartid = Integer.parseInt(req.getParameter("cartid"));
+		int qty = Integer.parseInt(req.getParameter("qty"));
+		int bookid = Integer.parseInt(req.getParameter("bookid"));
+		
+		try {
+			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+			Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:64101;database=MyDB",
+					"sa","123");
+			
+			PreparedStatement ps = con.prepareStatement("update cartitems set quantity = ? where bookid = ? and cartid = ?");
+			ps.setInt(1, qty);
+			ps.setInt(2, bookid);
+			ps.setInt(3, cartid);
+			ps.executeUpdate();
+			
+			PrintWriter p = resp.getWriter();
+			p.println("<script>"
+					+ "alert('Quantity changed');"
+					+ "window.location='cart.jsp';"
+					+ "</script>");
+		
+			
+		}catch (Exception e) {
+			// TODO: handle exception
+			PrintWriter p = resp.getWriter();
+			p.println(e);
+		}
+	}
+}

@@ -1,0 +1,45 @@
+Deleting items from cart
+
+1. Update cart page and add
+
+	<a href="DeleteFromCartServlet?cartid=${cart.cartid }" class="btn btn-danger col-lg-10 ">Delete from cart</a>
+
+2. Create DeleteFromCartServlet
+
+	
+@WebServlet("/DeleteFromCartServlet")
+public class DeleteFromCartServlet extends HttpServlet{
+	
+	
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		int cartid = Integer.parseInt(req.getParameter("cartid"));
+		
+		
+		try {
+			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+			Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:64101;database=MyDB",
+					"sa","123");
+			
+			
+			
+			
+			PreparedStatement ps = con.prepareStatement("delete from cartitems where cartid=?");
+			ps.setInt(1, cartid);
+			ps.executeUpdate();
+			
+			PrintWriter pw = resp.getWriter();
+			pw.println("<script>"
+					+ "alert('Item deleted from cart');"
+					+ "window.location='cart.jsp';"
+					+ "</script>");
+		
+			
+		}catch (Exception e) {
+			// TODO: handle exception
+			PrintWriter pw1 = resp.getWriter();
+			pw1.println(e);
+		}
+	}
+}
