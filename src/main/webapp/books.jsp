@@ -20,11 +20,66 @@
 		var="con"
 	/>
 	
-	<c:query var="rs" dataSource="${con}">
-		select * from books where status = 'A'
+	 <j:if test="${param.bookname!=null}">
+		<c:query var="rs" dataSource="${con}">
+			select * from books where bookname like '%${param.bookname}%' and status = 'A' 
+			
+					
+		</c:query>
+	</j:if> 
 	
-	</c:query>
 	
+
+	
+	
+	
+	<j:if test="${param.bookname==null}">
+		
+		
+		<j:if test="${param.author!=null}">
+			<c:query var="rs" dataSource="${con}">
+				select * from books where author like '%${param.author}%' and status = 'A' 
+			</c:query>
+		</j:if>
+		
+		<j:if test="${param.author==null}">
+			<c:query var="rs" dataSource="${con}">
+				select * from books where status = 'A' 
+			
+			</c:query>
+			
+		</j:if>
+		
+		<j:if test="${param.asc!=null }">
+			<c:query var="rs" dataSource="${con}">
+				select * from books where status = 'A' order by price asc
+			
+			</c:query>
+			
+		</j:if>
+		
+		<j:if test="${param.desc!=null }">
+				<c:query var="rs" dataSource="${con}">
+					select * from books where status = 'A' order by price desc
+				
+				</c:query>
+				
+		</j:if>
+		
+		
+	</j:if> 
+	
+	
+	
+	
+	<div align="left" style="padding-left: 250px">
+		<form>
+			Order by: 
+			<input type="submit" class="btn btn-success" name="asc" value="Ascending"/>
+			<input type="submit" class="btn btn-success" name="desc" value="Descending"/>
+		</form>
+	</div>
+		
 	<div class="container">
 		<!-- add existing code here  -->
 		

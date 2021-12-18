@@ -1,37 +1,32 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html>
-<html>
+AJAX - Asynchrous Javascript and XML
 
-<head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
+Take facebook for example, on the home page, there are storeis and chat section(on the right side)
+when we open a chat the chat is displayed on the home page without reloading the page, which can take a long time
+Only a part of the page is reloaded - this is called "partial page loading"
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+AJAX helps with this, it helps save time by not reloading the entire page again.
+Same with google, when we search something there is list of searches but the entire page is not reloaded.
 
-<style>
-	.myclass
-	{
-		margin:0 auto;
-	
-	}
+This is called "background requesting", google will the the search query and reaturn a list with top searches, this is
+done with background requesting, which is specifically called "Asynchronous request" - we are requesting multiuple things 
+in the background without reloading the entire page
 
-</style>
+Basically you can page over a page
 
-</head>
-<body>
+1. go to resiter.jsp and make the followign change
+	<body>
 
 	<script type="text/javascript">
 	
 		function myfunc(element) {
 			  //alert(element.value);
-			  var url = "ValidateServlet?value=" + element.value + "&id=" + element.id; //send element and id of the tag
-			  var xhttp = new XMLHttpRequest(); //create a request
+			  var url = "ValidateServlet?value=" + element.value + "&id=" + element.id;	
+			  var xhttp = new XMLHttpRequest();
 			  
 			  xhttp.onload = function() {
 				  
 				  if(this.readyState==4 && this.status==200){
-					  document.getElementById("msg"+element.id).innerHTML = this.responseText; //send message to the screen
+					  document.getElementById("msg"+element.id).innerHTML = this.responseText;
 				  }
 			      
 			      
