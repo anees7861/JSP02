@@ -61,7 +61,7 @@
 						
 						 <div class="row d-grip gap-3" align="center"> 
 						 	<!-- add item to cart when add to cart is clicked -->
-							<a href="PaymentServlet" class="btn btn-success col-lg-10 ">Checkout</a>
+							<a href="PaymentServlet?total=${row.price * cart.quantity }" class="btn btn-success col-lg-10 ">Checkout</a>
 							<a href="DeleteFromCartServlet?cartid=${cart.cartid }" class="btn btn-danger col-lg-10 ">Delete from cart</a>
 							<!-- use deletefromcartservlet to delete items from cart -->
 						</div>

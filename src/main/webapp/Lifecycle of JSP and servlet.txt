@@ -1,0 +1,36 @@
+CGI vs Servlet
+
+CGI-Common Gateway Interface. Tech was propular in early 90s and late 90s. Problem was that 
+websites needed to be opened in separate instances of the browser, this puts more load on OS.
+Another issues was when multiple clients requested the same page, each client was treated as a
+different process; this causes overloading of the server.
+
+Advantage of servlet is that it will not treat different clients as different process, it will 
+consider them as threads in a process. this decreases the load on ther server as multiple threads can
+be ran on the same process.
+
+Now a days we have event handling where users are given tokens and they are in a que, like hibernate
+and angular
+
+Life cycle of a servlet - this a time period of a servlet
+
+	1.) Convert servlet to byte code which is .class file 
+	2.) Load servlet instance which is object of the Servlet
+	3.) then call init method, which is inbuilt in the servlet adn automatically invokes
+	4.) then call the service method, both init and service method is called by tomcat
+	5.) service method decides which method is going to execute, doPost or doGet. When 
+	these methods are called they go to service method.
+	6.) finally destry method detroys the memory of the servlet from the server
+Life cycle of a jsp - jsp is an easier way to write in form of html,which 
+	will later be converted to a java servlet
+
+	1.) translate jsp to a servlet. 
+	2.)  Compile and coznvert to bytecode
+	3.) create instance
+	4.) load servlet instace
+	5.) call jspinit
+	6.) call _jspService()
+	7.) call jspDestroy()
+
+Limitations of Servlet - 
+	

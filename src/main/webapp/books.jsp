@@ -56,7 +56,7 @@
 			
 			</c:query>
 			
-		</j:if>
+		</j:if> <!-- orders books in asc price wise  -->
 		
 		<j:if test="${param.desc!=null }">
 				<c:query var="rs" dataSource="${con}">
@@ -64,7 +64,7 @@
 				
 				</c:query>
 				
-		</j:if>
+		</j:if> <!-- orders books in desc price wise  -->
 		
 		
 	</j:if> 

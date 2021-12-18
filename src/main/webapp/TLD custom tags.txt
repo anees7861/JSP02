@@ -1,0 +1,2 @@
+TLD -  tag library descriptor, this allows you to creat your own custom tags
+behind these custom tags there is a java code. this makes our html code easier to write

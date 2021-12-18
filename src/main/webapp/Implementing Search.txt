@@ -1,1 +1,64 @@
 implementing search
+
+1. modify header.jsp
+
+	 <form class="d-flex" action="books.jsp">
+	        <input class="form-control me-2" type="search" name="bookname" placeholder="Search" aria-label="Search">
+	        <button class="btn btn-outline-success" type="submit">Search by book name</button>
+	</form> 
+			      
+	<form class="d-flex" action="books.jsp">
+		 <input class="form-control me-2" type="search" name="author" placeholder="Search" aria-label="Search">
+	 	<button class="btn btn-outline-success" type="submit">Search by author</button>
+	</form>
+
+2. add following lines to books.jsp
+
+	 <j:if test="${param.bookname!=null}">
+		<c:query var="rs" dataSource="${con}">
+			select * from books where bookname like '%${param.bookname}%' and status = 'A' 
+			
+					
+		</c:query>
+	</j:if> 
+	
+	
+
+	
+	
+	
+	<j:if test="${param.bookname==null}">
+		
+		
+		<j:if test="${param.author!=null}">
+			<c:query var="rs" dataSource="${con}">
+				select * from books where author like '%${param.author}%' and status = 'A' 
+			</c:query>
+		</j:if>
+		
+		<j:if test="${param.author==null}">
+			<c:query var="rs" dataSource="${con}">
+				select * from books where status = 'A' 
+			
+			</c:query>
+			
+		</j:if>
+		
+		<j:if test="${param.asc!=null }">
+			<c:query var="rs" dataSource="${con}">
+				select * from books where status = 'A' order by price asc
+			
+			</c:query>
+			
+		</j:if> <!-- orders books in asc price wise  -->
+		
+		<j:if test="${param.desc!=null }">
+				<c:query var="rs" dataSource="${con}">
+					select * from books where status = 'A' order by price desc
+				
+				</c:query>
+				
+		</j:if> <!-- orders books in desc price wise  -->
+		
+		
+	</j:if> 

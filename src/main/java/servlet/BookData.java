@@ -7,6 +7,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 
+import javax.sql.DataSource;
+import javax.naming.Context;
+import javax.naming.InitialContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -29,9 +32,10 @@ public class BookData extends HttpServlet {
 		Part part = req.getPart("image"); //get parts of image from the submission
 		InputStream is = part.getInputStream(); //put it in an input stream to send data to serve
 		try{
-			Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-			Connection con = DriverManager.getConnection("jdbc:sqlserver://localhost:64101;database=MyDB",
-					"sa","123");
+			// getting connection from server.xml and context.xml files
+			Context ctx = new InitialContext();
+			DataSource ds = (DataSource)ctx.lookup("java:/comp/env/jdbc/MyLocalDB"); //connect to local DB in context.xml
+			Connection con = ds.getConnection();
 			PreparedStatement ps = con.prepareStatement("insert into books (bookname,author,price,link,Images,status) "
 					+ "values(?,?,?,?,?,?)");
 			

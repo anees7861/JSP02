@@ -25,7 +25,7 @@ public class PaymentServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
+		double total = Double.parseDouble(req.getParameter("total"));
 		try {
 			
 			HttpSession hs = req.getSession();
@@ -38,7 +38,7 @@ public class PaymentServlet extends HttpServlet {
 			order.setEmail(((User)hs.getAttribute("u")).getMail());
 			order.setPhone("9833065621");
 			order.setCurrency("INR");
-			order.setAmount((double) 11);
+			order.setAmount(total);
 			order.setDescription("Description");
 			order.setRedirectUrl("https://www.google.com");
 			order.setWebhookUrl("https://www.google.com");
